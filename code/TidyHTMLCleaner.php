@@ -22,12 +22,12 @@ class TidyHTMLCleaner extends HTMLCleaner {
 		}
 
 		// No PHP extension available, attempt to use CLI tidy.
-		// This works both on Unix/Linux and Windows.
 		$retval = null;
 		$output = null;
 		@exec('tidy --version', $output, $retval);
 		if ($retval===0) {
 			$input = escapeshellarg($content);
+			// Doesn't work on Windows, sorry, stick to the extension.
 			$tidy = @`echo $input | tidy -q --show-body-only yes --input-encoding utf8 --output-encoding utf8 --wrap 0 --clean yes --output-xhtml yes`;
 			return $tidy;
 		}
